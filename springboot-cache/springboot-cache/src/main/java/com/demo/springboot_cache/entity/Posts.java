@@ -1,30 +1,26 @@
 package com.demo.springboot_cache.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.sql.Timestamp;
 
 @Entity
-@Data
-@Setter
 @Getter
-@Table(name = "users")
-public class User {
+@Setter
+public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String userName;
+    private String postDescription;
 
-    private String password;
+    private Timestamp postDate;
 
-    private Integer age;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Posts> posts;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

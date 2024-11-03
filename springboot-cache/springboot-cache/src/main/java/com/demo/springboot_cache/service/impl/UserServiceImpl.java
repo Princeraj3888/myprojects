@@ -1,6 +1,7 @@
 package com.demo.springboot_cache.service.impl;
 
 import com.demo.springboot_cache.entity.User;
+import com.demo.springboot_cache.exception.UserNotFoundException;
 import com.demo.springboot_cache.repository.UserRepository;
 import com.demo.springboot_cache.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -24,7 +26,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+        Optional<User> retrievedUser = userRepository.findById(id);
+        if(retrievedUser.isPresent()){
+            return retrievedUser.get();
+        }else{
+            throw new UserNotFoundException("user not found with available id: "+id);
+        }
     }
 
     @Override

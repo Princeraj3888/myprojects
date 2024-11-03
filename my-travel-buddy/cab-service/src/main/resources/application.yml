@@ -1,0 +1,22 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: driver-cms
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/cms_demo
+    username: root
+    password: mysqlpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      group-id: update-driver-group
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
