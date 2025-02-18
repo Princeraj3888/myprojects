@@ -7,6 +7,7 @@ import java.math.BigInteger;
 
 public class ArrayProcessing {
 
+    //task details: i have an array list and i want to push all the non zeros to right and 0 to left
     public static void main(String args[]){
 
         int [] array = {7,0,9,4,0,7,0};
