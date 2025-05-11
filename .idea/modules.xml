@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cms/cms.iml" filepath="$PROJECT_DIR$/cms/cms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/data-structers/data-structers.iml" filepath="$PROJECT_DIR$/data-structers/data-structers.iml" />
       <module fileurl="file://$PROJECT_DIR$/demo-programs/demo-programs.iml" filepath="$PROJECT_DIR$/demo-programs/demo-programs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jvm-internals/jvm-internals.iml" filepath="$PROJECT_DIR$/jvm-internals/jvm-internals.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/myprojects.iml" filepath="$PROJECT_DIR$/.idea/myprojects.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-mongo-db/spring-mongo-db/spring-mongo-db.iml" filepath="$PROJECT_DIR$/spring-mongo-db/spring-mongo-db/spring-mongo-db.iml" />
       <module fileurl="file://$PROJECT_DIR$/springboot-cache/springboot-cache/springboot-cache.iml" filepath="$PROJECT_DIR$/springboot-cache/springboot-cache/springboot-cache.iml" />

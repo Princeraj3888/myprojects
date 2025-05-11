@@ -10,12 +10,16 @@
         <module name="cms" />
         <module name="demo-programs" />
         <module name="spring-mongo-db" />
+        <module name="data-structers" />
         <module name="springboot-cache" />
+        <module name="jvm-internals" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="cms" target="17" />
+      <module name="data-structers" target="17" />
       <module name="demo-programs" target="17" />
+      <module name="jvm-internals" target="17" />
       <module name="spring-mongo-db" target="17" />
       <module name="springboot-cache" target="17" />
     </bytecodeTargetLevel>
