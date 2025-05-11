@@ -1,2 +1,4 @@
-package com.exploretech.processing;public class OrderBook {
+package com.exploretech.processing;
+
+public class OrderBook {
 }
