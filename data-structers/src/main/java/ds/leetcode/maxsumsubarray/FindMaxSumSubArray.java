@@ -11,26 +11,21 @@ public class FindMaxSumSubArray {
     }
 
     private static int findMaxSumOfSubArray(int[] intArray, int k) {
-        int maxSum = 0;
         int sum = 0;
-        int size = intArray.length;
+        int maxSum = 0;
         int index = 0;
-        while(index < size && index < k ){
+        int size = intArray.length;
+        while(index<size && index< k){
             sum += intArray[index];
             index++;
         }
-        System.out.println("sum: "+sum);
-        maxSum = sum;
-        for(int i=1; i < size - k + 1; i++ ){
-            int prevElement = intArray[i -1];
-            System.out.println("previousElement: "+prevElement);
-            int nextElement = intArray[i + k - 1];
-            System.out.println("nextElement: "+nextElement);
 
+        maxSum = sum;
+        for(int i=1; i<size - k + 1; i++){
+            int prevElement = intArray[i - 1];
+            int nextElement = intArray[i + k - 1];
             sum = sum - prevElement + nextElement;
-            System.out.println("sum: "+sum);
             maxSum = Math.max(maxSum, sum);
-            System.out.println("maxSum: "+maxSum);
         }
 
         return maxSum;
