@@ -18,17 +18,19 @@ public class Client {
         System.out.println("is string str: "+str+" palindrome: "+checkStringIsPalindrome(str));
         System.out.println("is string str: "+str1+" palindrome: "+checkStringIsPalindrome(str1));*/
 
-        countNumberOfStringOccurrence();
+        //countNumberOfStringOccurrence();
+        countNumber();
     }
 
     public static void countNumber(){
         String str = "i am practicing java";
         char[] chars = str.toCharArray();
-        List<Character> list = new ArrayList<>();
+        /*List<Character> list = new ArrayList<>();
         for(char ch : chars){
             list.add(ch);
-        }
-        Map<Character, Long> map = list.stream().filter(character -> !character.equals(" "))
+        }*/
+        Map<Character, Long> map = str.chars().mapToObj(ch -> (char)ch)
+                .filter(character -> !character.toString().trim().isEmpty())
                 .collect(Collectors.groupingBy(ch -> ch, Collectors.counting()));
 
         System.out.println(map);

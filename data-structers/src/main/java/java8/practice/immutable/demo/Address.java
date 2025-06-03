@@ -9,6 +9,9 @@ public class Address {
     private String state;
     private String country;
 
+    public Address() {
+    }
+
     public Address(String plotNo, String streetNo, String district, String province, String state, String country) {
         this.plotNo = plotNo;
         this.streetNo = streetNo;
