@@ -6,10 +6,20 @@ import java.util.Objects;
 public class Employee {
     private String name;
     private BigDecimal salary;
+    private Integer age;
 
-    public Employee(String name, BigDecimal salary) {
+    public Employee(String name, BigDecimal salary, Integer age) {
         this.name = name;
         this.salary = salary;
+        this.age = age;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     public String getName() {
@@ -33,6 +43,7 @@ public class Employee {
         return "Employee{" +
                 "name='" + name + '\'' +
                 ", salary=" + salary +
+                ", age=" + age +
                 '}';
     }
 

@@ -49,7 +49,7 @@ public class FindStudentPercentage {
 
     }
 
-    private static List<String> createSubjectsForAllStudents() {
+    public static List<String> createSubjectsForAllStudents() {
         List<String> subjects = new ArrayList<>();
         subjects.add("maths");
         subjects.add("physics");
@@ -61,7 +61,7 @@ public class FindStudentPercentage {
         return subjects;
     }
 
-    private static List<Student> createStudentDetails(List<String> subjects) {
+    public static List<Student> createStudentDetails(List<String> subjects) {
         List<Student> studentList = new ArrayList<>();
 
         Student s1 = new Student();
@@ -75,6 +75,7 @@ public class FindStudentPercentage {
         marks1.add(100);
         s1.setMarks(marks1);
         s1.setSubjects(subjects);
+        s1.setAge(15);
         studentList.add(s1);
 
         Student s2 = new Student();
@@ -88,6 +89,7 @@ public class FindStudentPercentage {
         marks2.add(100);
         s2.setMarks(marks2);
         s2.setSubjects(subjects);
+        s2.setAge(20);
         studentList.add(s2);
 
         Student s3 = new Student();
@@ -101,6 +103,7 @@ public class FindStudentPercentage {
         marks3.add(90);
         s3.setMarks(marks3);
         s3.setSubjects(subjects);
+        s3.setAge(25);
         studentList.add(s3);
 
         return studentList;
