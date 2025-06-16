@@ -87,8 +87,47 @@ public class StreamsExample {
         //calculateAverageStudentAge();
 
         //sort by multiple values
-        sortByMultipleValues();
+        //sortByMultipleValues();
 
+        //count the number of words in a given string
+        //countNoOfWordsInAListOfString();
+
+        //find the longest string from the list of strings
+        findTheLongestStringFromStringList();
+
+        //find duplicate numbers from list of integers
+        //findDuplicatesFromIntegerList();
+
+    }
+
+    private static void findDuplicatesFromIntegerList() {
+        List<Integer> integerList = Arrays.asList(5, 3, 2, 1, 9, 1, 4, 8);
+
+        Set<Integer> integerSet = new HashSet<>();
+        boolean containsDuplicate = integerList.stream().anyMatch(ele -> !integerSet.add(ele));
+        System.out.println("list contains duplicate: "+containsDuplicate);
+
+        /*for(int i=0; i<integerList.size(); i++){
+            if(!integerSet.add(integerList.get(i))){
+                System.out.println("the duplicate element is: "+integerList.get(i));
+                return;
+            }
+        }*/
+
+    }
+
+    private static void findTheLongestStringFromStringList() {
+        List<String> stringList = Arrays.asList("apple", "banana", "strawberry", "jack fruit", "orange", "kiwi");
+        Optional<String> longestString = stringList.stream()
+                .max(Comparator.comparingInt(String::length));
+        longestString.ifPresent(System.out::println);
+    }
+
+    private static void countNoOfWordsInAListOfString() {
+        List<String> stringList = Arrays.asList("apple", "banana", "apple", "banana", "orange", "cherry");
+        Map<String, Long> countMap = stringList.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        countMap.forEach((string, count) -> System.out.println(string + " : "+ count));
     }
 
     private static void sortByMultipleValues() {
