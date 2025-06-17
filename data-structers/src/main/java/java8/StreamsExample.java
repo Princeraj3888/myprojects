@@ -60,7 +60,7 @@ public class StreamsExample {
         //findKIndexOfCharacterAndReplace();
 
         //find the first non-repeating character from a given string
-        //findNonRepeatingCharacterInAString();
+        findNonRepeatingCharacterInAString();
 
         //find statistics from given list of integers
         //findStatisticsFromAnIntegerList();
@@ -93,7 +93,7 @@ public class StreamsExample {
         //countNoOfWordsInAListOfString();
 
         //find the longest string from the list of strings
-        findTheLongestStringFromStringList();
+        //findTheLongestStringFromStringList();
 
         //find duplicate numbers from list of integers
         //findDuplicatesFromIntegerList();
@@ -238,16 +238,15 @@ public class StreamsExample {
 
     private static void findNonRepeatingCharacterInAString() {
         String str = "swiss";
-        char nonRepeatingFirstChar = str.chars()
+        Optional<Character> nonRepeatingFirstChar = str.chars()
                 .mapToObj(ch -> (char) ch)
-                .collect(Collectors.groupingBy(ch -> ch, LinkedHashMap::new, Collectors.counting()))
+                .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
                 .entrySet()
                 .stream()
                 .filter(entry -> entry.getValue() == 1)
-                .map(entry -> entry.getKey())
-                .findFirst()
-                .get();
-        System.out.println("nonRepeatingFirstChar: "+nonRepeatingFirstChar);
+                .map(Map.Entry::getKey)
+                .findFirst();
+        System.out.println("nonRepeatingFirstChar: "+nonRepeatingFirstChar.get());
     }
 
     private static void findKIndexOfCharacterAndReplace() {
@@ -273,19 +272,17 @@ public class StreamsExample {
     private static void findTheVowelsSentenceInString() {
 
         String str = "i have an apple and orange on the table";
-        int k = 2;
+        int k = 3;
 
         Arrays.stream(str.split(" "))
-                .filter(word -> countTheVowelsInTheWord(word) >=2)
+                .filter(word -> countTheVowelsInTheWord(word) >= k)
                 .forEach(System.out::println);
-
-
     }
 
     public static long countTheVowelsInTheWord(String word){
         return word.chars()
-                .mapToObj(ch -> (char)ch)
-                .filter(c -> "aeiouAEIOU".indexOf(c)!=-1)
+                .mapToObj(ch -> (char) ch)
+                .filter(ch -> "aeiouAEIOU".indexOf(ch)!=-1)
                 .count();
     }
 
@@ -309,16 +306,17 @@ public class StreamsExample {
         System.out.println("sumOfFirstTwo: "+sumOfFirstTwo);
 
         Optional<Integer> multiplyOfFirstTwo = integerList.stream()
-                .limit(2)
+                        .limit(2)
                 .reduce((a, b) -> a * b);
-        multiplyOfFirstTwo.ifPresent(System.out::println);
+        multiplyOfFirstTwo.ifPresent(ele -> System.out.println("multiplication of two numbers: "+ele));
     }
 
     private static void findTheLastNumberFromList() {
         int[] arr = {12, 15, 1, 3, 5, 24, 78, 64, 23, 45, 15};
         Arrays.stream(arr)
-                .skip(arr.length - 1)
-                .findFirst().ifPresent(System.out::println);
+                .skip(arr.length -1)
+                .findFirst()
+                .ifPresent(System.out::println);
     }
 
     private static void findTheNthSmallestNumber() {
@@ -353,11 +351,10 @@ public class StreamsExample {
     }
 
     private static void findPrimeNumbersTillTargetElement(int target){
-        List<Integer> primeNumbersList = IntStream.range(2, target)
+        List<Integer> primeNumbersList = IntStream.range(0, target)
                 .filter(StreamsExample::isPrimeUsingStreams)
                 .boxed()
                 .toList();
-                //.forEach(System.out::println);
         System.out.println("primeNumbersList: "+primeNumbersList);
     }
 
@@ -375,7 +372,7 @@ public class StreamsExample {
         List<Integer> integerList1 = Arrays.asList(10, 12, 4, 8, 15, 1);
         List<Integer> integerList2 = Arrays.asList(0, 78, 85, 23, 17, 13);
 
-        Stream<Integer> combinedStreamList = Stream.concat(integerList1.stream(), integerList2.stream());
+        List<Integer> combinedStreamList = Stream.concat(integerList1.stream(), integerList2.stream()).toList();
         combinedStreamList.forEach(data -> System.out.print(data+", "));
     }
 
@@ -384,19 +381,20 @@ public class StreamsExample {
         System.out.println("original list: "+integerList);
 
         List<Integer> numberListStartsWithOne = integerList.stream()
-                        .filter(data -> String.valueOf(data).startsWith("1"))
-                        .toList();
+                        .filter(num -> String.valueOf(num).startsWith("1"))
+                .toList();
         System.out.println("numbers starts with 1: "+numberListStartsWithOne);
     }
 
     private static void removeDuplicatesAndPreserveOrder() {
         List<String> stringList = new ArrayList<>();
-        stringList.add("one");stringList.add("two");stringList.add("one");stringList.add("three");stringList.add("one");stringList.add("two");stringList.add("four");
+        stringList.add("one");stringList.add("two");stringList.add("one");stringList.add("three");
+        stringList.add("one");stringList.add("two");stringList.add("four");
         System.out.println("original string list: "+stringList);
 
         List<String> uniqueList = stringList.stream()
-                        .distinct()
-                        .collect(Collectors.toCollection(ArrayList::new));
+                .distinct()
+                .collect(Collectors.toCollection(ArrayList::new));
 
         System.out.println("uniqueList: "+uniqueList);
     }
@@ -414,7 +412,7 @@ public class StreamsExample {
     }
 
     public static boolean isPrimeUsingStreams(int num){
-        if(num<=1){
+        if(num <= 1){
             return false;
         }
         return IntStream.rangeClosed(2, (int) Math.sqrt(num))
@@ -440,14 +438,14 @@ public class StreamsExample {
         List<String> stringList = Arrays.asList("1apple", "banana", "7avocado", "blue berry", "2orange");
 
         stringList.stream()
-                .filter(str -> !str.isEmpty() && Character.isDigit(str.charAt(0)))
+                .filter(str -> Character.isDigit(str.charAt(0)))
                 .forEach(System.out::println);
     }
 
     public static boolean checkPalindromeUsingForLoop(String str){
-        int length = str.length();
-        for(int i=0; i<length/2; i++){
-            if(str.charAt(i)!=str.charAt(length-1-i)){
+        int stringLength = str.length();
+        for(int i=0; i < stringLength/2; i++){
+            if(str.charAt(i)!=str.charAt(stringLength - 1 -i)){
                 return false;
             }
         }
@@ -456,6 +454,6 @@ public class StreamsExample {
 
     public static boolean checkPalindromeUsingStream(String str){
         return IntStream.range(0, str.length()/2)
-                .allMatch(i -> str.charAt(i)==str.charAt(str.length()-1-i));
+                .allMatch(i -> str.charAt(i) == str.charAt(str.length()-1-i));
     }
 }
