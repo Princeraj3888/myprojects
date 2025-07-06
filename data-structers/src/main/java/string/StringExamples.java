@@ -33,7 +33,12 @@ public class StringExamples {
         //lastIndex of method
         System.out.println("lastIndex of method: "+str.lastIndexOf("r"));
 
-
+        int arr1[] = new int[5];
+        arr1[0] = 4;
+        int brr[] = arr1;
+        brr[0] = 5;
+        System.out.println(arr1[0]);
+        System.out.println(brr[0]);
 
     }
 }

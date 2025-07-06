@@ -60,7 +60,7 @@ public class StreamsExample {
         //findKIndexOfCharacterAndReplace();
 
         //find the first non-repeating character from a given string
-        findNonRepeatingCharacterInAString();
+        //findNonRepeatingCharacterInAString();
 
         //find statistics from given list of integers
         //findStatisticsFromAnIntegerList();
@@ -98,13 +98,83 @@ public class StreamsExample {
         //find duplicate numbers from list of integers
         //findDuplicatesFromIntegerList();
 
+        //find strings are anagrams
+        findAnagramStrings();
+
+        //there is a list with numbers, iterate over the list and count no of times its repetition
+        //findRepeatitionOfNumberInList();
+
+
+    }
+
+    private static void reverseAnIntegerArray(){
+        int[] integersArr = {1, 2, 78, 5, 2, 4, 3, 4};
+        int[] reverseArray = IntStream.range(0, integersArr.length)
+                .map(i -> integersArr[integersArr.length - i - 1])
+                .toArray();
+
+        System.out.println("reversedArray: "+Arrays.toString(reverseArray));
+
+        List<Integer> integerList = List.of(7, 41, 5, 21, 3, 54, 65, 12, 42);
+        List<Integer> reverseList = IntStream.rangeClosed(0, integersArr.length)
+                .mapToObj(i -> integerList.get(integerList.size() - i - 1))
+                .collect(Collectors.toList());
+
+        System.out.println("reverseList: "+reverseList);
+    }
+    private static void reverseAString(){
+        String str = "this is a string";
+        System.out.println("original string: "+ str);
+        String reverseString = IntStream.range(0, str.length())
+                .mapToObj(i -> str.charAt(str.length() - i - 1))
+                .map(String::valueOf)
+                .collect(Collectors.joining(""));
+
+        System.out.println("reverse of string: "+reverseString);
+    }
+
+    private static void exampleOfReduceMethodUsage() {
+        List<Integer> integerList = Arrays.asList(5, 3, 2, 9, 1, 4, 5, 8);
+        int sum = integerList.stream().reduce(1, (a, b) -> a + b);
+        System.out.println("sum: "+sum);
+    }
+
+    private static void findRepeatitionOfNumberInList() {
+        List<Integer> integerList = Arrays.asList(12, 15, 1, 3, 5, 24, 78, 64, 23, 45, 15, 1, 3, 5, 78, 23);
+        System.out.println("original list: "+integerList);
+        int maxNumber = integerList.stream().max(Integer::compare).orElse(0);
+
+        List<Integer> newList = IntStream.rangeClosed(0, maxNumber).mapToObj(n -> 0)
+                .collect(Collectors.toList());
+
+        integerList.forEach(ele -> newList.set(ele, newList.get(ele) + 1));
+        System.out.println("newList: "+newList);
+
+        /*Map<Integer, Long> map = integerList.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        map.forEach((k, v) -> System.out.println("key: "+k+" v: "+v));*/
+    }
+
+    private static void findAnagramStrings() {
+        List<String> stringList = Arrays.asList("tea", "eat", "do", "did", "listen","silent");
+        Map<String, List<String>> anagramMap = new HashMap<>();
+
+        for(String str : stringList){
+            char[] ch = str.toCharArray();
+            Arrays.sort(ch);
+            String sortedString = new String(ch);
+            anagramMap.computeIfAbsent(sortedString, k -> new ArrayList()).add(str);
+        };
+        anagramMap.forEach((k, v) -> System.out.println("key: "+k+" value: "+v));
     }
 
     private static void findDuplicatesFromIntegerList() {
-        List<Integer> integerList = Arrays.asList(5, 3, 2, 1, 9, 1, 4, 8);
+        List<Integer> integerList = Arrays.asList(5, 3, 2, 1, 9, 4, 8);
 
         Set<Integer> integerSet = new HashSet<>();
-        boolean containsDuplicate = integerList.stream().anyMatch(ele -> !integerSet.add(ele));
+        boolean containsDuplicate = integerList.stream()
+                .anyMatch(ele -> !integerSet.add(ele));
         System.out.println("list contains duplicate: "+containsDuplicate);
 
         /*for(int i=0; i<integerList.size(); i++){
@@ -131,11 +201,10 @@ public class StreamsExample {
     }
 
     private static void sortByMultipleValues() {
-
         List<Employee> employeeList =  FindMaximumSalary.addEmployeeDetails();
         System.out.println("original employee list: "+employeeList);
         List<Employee> sortedEmployeeList = employeeList.stream()
-                .sorted(Comparator.comparingInt(Employee::getAge).thenComparing(Employee::getName).reversed()).toList();
+                .sorted(Comparator.comparing(Employee::getAge).thenComparing(Employee::getName).reversed()).toList();
         System.out.println("sorted employee list: "+sortedEmployeeList);
 
     }
@@ -144,7 +213,8 @@ public class StreamsExample {
         List<String> subjectList = FindStudentPercentage.createSubjectsForAllStudents();
         List<Student> studentList = FindStudentPercentage.createStudentDetails(subjectList);
 
-        double averageAge = studentList.stream().collect(Collectors.averagingDouble(Student::getAge));
+        double averageAge = studentList.stream()
+                .collect(Collectors.averagingDouble(Student::getAge));
         System.out.println("average age: "+averageAge);
 
         double avgAge = studentList.stream()
@@ -167,9 +237,8 @@ public class StreamsExample {
 
     private static void partitionListOfNumbers() {
         List<Integer> integerList1 = Arrays.asList(1, 2, 3, 4, 5, 4, 5, 6, 7, 8, 9);
-        Map<Boolean, List<Integer>> partitionList =
-                integerList1.stream()
-                        .collect(Collectors.partitioningBy(i -> i%2 == 0));
+        Map<Boolean, List<Integer>> partitionList = integerList1.stream()
+                .collect(Collectors.partitioningBy(ele -> ele % 2 == 0));
         System.out.println("even number: "+partitionList.get(true));
         System.out.println("odd number: "+partitionList.get(false));
     }
@@ -198,24 +267,20 @@ public class StreamsExample {
 
     private static void countTheCharacterInAString() {
         String str = "hello world";
-        Map<String, Long> charToCount = Arrays.stream(str.split(""))
-                .filter(st -> !st.isBlank())
+        Map<String, Long> charCountMap = Arrays.stream(str.split(""))
+                .filter(st -> !str.isBlank())
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        charToCount.forEach((character, count) -> System.out.println("character: "+character+" count: "+count));
+        charCountMap.forEach((character, count) -> System.out.println("character: "+character+" count: "+count));
 
-        Map<Character, Long> countMap = str.chars()
-                .mapToObj(i -> (char) i)
-                .filter(ch -> !ch.toString().isBlank())
+        Map<Character, Long> characterCountMap = str.chars()
+                .mapToObj(ch -> (char) ch)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-
-        countMap.forEach((character, count) -> System.out.println("char: "+character+" count: "+count));
+        characterCountMap.forEach((character, count) -> System.out.println("char: "+character+" count: "+count));
     }
 
     private static void findTheHighestLengthElement() {
         List<String> stringList = Arrays.asList("apple", "banana", "cherry", "mango", "orange", "kiwi");
         stringList.stream()
-                .peek(s -> System.out.println(s+" "+s.length()))
-                //.sorted((w1, w2)-> Integer.compare(w2.length(), w1.length()))
                 .sorted(Comparator.comparingInt(String::length).reversed())
                 .skip(2)
                 .findFirst()
@@ -243,10 +308,10 @@ public class StreamsExample {
                 .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
                 .entrySet()
                 .stream()
-                .filter(entry -> entry.getValue() == 1)
+                .filter(ele -> ele.getValue() == 1)
                 .map(Map.Entry::getKey)
                 .findFirst();
-        System.out.println("nonRepeatingFirstChar: "+nonRepeatingFirstChar.get());
+        nonRepeatingFirstChar.ifPresent(System.out::println);
     }
 
     private static void findKIndexOfCharacterAndReplace() {
@@ -282,7 +347,7 @@ public class StreamsExample {
     public static long countTheVowelsInTheWord(String word){
         return word.chars()
                 .mapToObj(ch -> (char) ch)
-                .filter(ch -> "aeiouAEIOU".indexOf(ch)!=-1)
+                .filter(ch -> "aeiouAEIOU".indexOf(ch)==-1)
                 .count();
     }
 
