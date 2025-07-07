@@ -32,7 +32,7 @@ public class StreamsExample {
         //checkPeekMethodUsage();
 
         //find the string, starts with digits
-        //checkTheCharactersWithNumbers();
+        checkTheCharactersWithNumbers();
 
         String str = "madam";
         String str1 = "help";
@@ -99,7 +99,7 @@ public class StreamsExample {
         //findDuplicatesFromIntegerList();
 
         //find strings are anagrams
-        findAnagramStrings();
+        //findAnagramStrings();
 
         //there is a list with numbers, iterate over the list and count no of times its repetition
         //findRepeatitionOfNumberInList();
@@ -446,7 +446,7 @@ public class StreamsExample {
         System.out.println("original list: "+integerList);
 
         List<Integer> numberListStartsWithOne = integerList.stream()
-                        .filter(num -> String.valueOf(num).startsWith("1"))
+                .filter(num -> String.valueOf(num).startsWith("1"))
                 .toList();
         System.out.println("numbers starts with 1: "+numberListStartsWithOne);
     }
@@ -457,9 +457,7 @@ public class StreamsExample {
         stringList.add("one");stringList.add("two");stringList.add("four");
         System.out.println("original string list: "+stringList);
 
-        List<String> uniqueList = stringList.stream()
-                .distinct()
-                .collect(Collectors.toCollection(ArrayList::new));
+        List<String> uniqueList = stringList.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
 
         System.out.println("uniqueList: "+uniqueList);
     }
@@ -480,6 +478,7 @@ public class StreamsExample {
         if(num <= 1){
             return false;
         }
+
         return IntStream.rangeClosed(2, (int) Math.sqrt(num))
                 .noneMatch(i -> num % i == 0);
     }
@@ -502,8 +501,7 @@ public class StreamsExample {
     public static void checkTheCharactersWithNumbers(){
         List<String> stringList = Arrays.asList("1apple", "banana", "7avocado", "blue berry", "2orange");
 
-        stringList.stream()
-                .filter(str -> Character.isDigit(str.charAt(0)))
+        stringList.stream().filter(s -> Character.isDigit(s.charAt(0)))
                 .forEach(System.out::println);
     }
 
